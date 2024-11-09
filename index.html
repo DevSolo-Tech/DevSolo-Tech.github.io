@@ -52,6 +52,11 @@
     <div class="container">
         <h2>User Registration</h2>
         <form id="registrationForm">
+            <!-- New fields for db_name and identifier -->
+            <input type="text" id="db_name" placeholder="Database Name" required>
+            <input type="text" id="identifier" placeholder="Identifier" required>
+
+            <!-- Existing fields for username, email, and password -->
             <input type="text" id="username" placeholder="Username" required>
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
@@ -64,17 +69,21 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
+            const db_name = document.getElementById('db_name').value;
+            const identifier = document.getElementById('identifier').value;
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             const data = {
+                db_name: db_name,
+                identifier: identifier,
                 username: username,
                 email: email,
                 password: password
             };
 
-            fetch('https://investorsol2.pythonanywhere.com/register', {
+            fetch('https://localhost:5000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
