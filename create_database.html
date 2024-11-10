@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Database</h2>
+        <form id="createDatabaseForm">
+            <input type="text" id="new_db_name" placeholder="Enter new database name" required>
+            <input type="text" id="new_identifier" placeholder="Enter identifier" required>
+            <button type="submit">Create Database</button>
+        </form>
+        <div class="message" id="createDatabaseMessage"></div>
+    </div>
+
+    <script>
+        // Create database form submission
+        document.getElementById('createDatabaseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Clear previous messages
+            const messageElement = document.getElementById('createDatabaseMessage');
+            messageElement.innerText = '';
+            messageElement.className = 'message';
+
+            const dbName = document.getElementById('new_db_name').value;
+            const identifier = document.getElementById('new_identifier').value;
+
+            const data = { db_name: dbName, identifier: identifier };
+
+            fetch('https://investorsol2.pythonanywhere.com/create_database', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(({ status, body }) => {
+                if (status === 201) {
+                    // Success message
+                    messageElement.innerText = body.message;
+                    messageElement.classList.add('success');
+
+                    // Clear the input fields
+                    document.getElementById('new_db_name').value = '';
+                    document.getElementById('new_identifier').value = '';
+
+                    // Redirect to registration.html after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'registration.html';
+                    }, 1000);
+                } else if (status === 400 && body.message.includes('already exists')) {
+                    // Database already exists error
+                    messageElement.innerText = body.message;
+                    messageElement.classList.add('error');
+                } else {
+                    // Other errors
+                    messageElement.innerText = body.message || 'An unknown error occurred.';
+                    messageElement.classList.add('error');
+                }
+            })
+            .catch((error) => {
+                // Display fetch error
+                messageElement.innerText = 'Error: ' + error.message;
+                messageElement.classList.add('error');
+            });
+        });
+    </script>
+</body>
+</html>
