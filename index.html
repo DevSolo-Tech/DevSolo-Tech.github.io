@@ -19,6 +19,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
         }
         h2 {
             text-align: center;
@@ -52,31 +53,33 @@
     <div class="container">
         <h2>User Registration</h2>
         <form id="registrationForm">
-            <!-- New fields for db_name and identifier -->
             <input type="text" id="db_name" placeholder="Database Name" required>
             <input type="text" id="identifier" placeholder="Identifier" required>
-
-            <!-- Existing fields for username, email, and password -->
             <input type="text" id="username" placeholder="Username" required>
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Register</button>
         </form>
         <div class="message" id="message"></div>
+
+        <p style="text-align: center;">
+            <a href="create_database.html" target="_blank">Create a new database</a>
+        </p>
     </div>
 
     <script>
+        // Registration form submission
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const db_name = document.getElementById('db_name').value;
+            const dbName = document.getElementById('db_name').value;
             const identifier = document.getElementById('identifier').value;
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             const data = {
-                db_name: db_name,
+                db_name: dbName,
                 identifier: identifier,
                 username: username,
                 email: email,
@@ -85,9 +88,7 @@
 
             fetch('https://investorsol2.pythonanywhere.com/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             })
             .then(response => response.json())
