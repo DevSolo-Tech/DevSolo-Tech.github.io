@@ -53,18 +53,18 @@
     <div class="container">
         <h2>User Registration</h2>
         <form id="registrationForm">
-            <input type="text" id="db_name" placeholder="Database Name" required>
-            <input type="text" id="identifier" placeholder="Identifier" required>
+            <input type="text" id="database_host_name" placeholder="Database Host Address" required>
+            <input type="text" id="database_username" placeholder="Database Username" required>
+            <input type="text" id="database_password" placeholder="Database Password" required>
+            <input type="text" id="database_name" placeholder="Database Name" required>
+            <input type="text" id="db_table_name" placeholder="Database Table Name" required>
             <input type="text" id="username" placeholder="Username" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
+            <input type="email" id="useremail" placeholder="Email" required>
+            <input type="password" id="userpassword" placeholder="Password" required>
             <button type="submit">Register</button>
         </form>
         <div class="message" id="message"></div>
 
-        <p style="text-align: center;">
-            <a href="create_database.html" target="_blank">Create a new database</a>
-        </p>
     </div>
 
     <script>
@@ -72,18 +72,24 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const dbName = document.getElementById('db_name').value;
-            const identifier = document.getElementById('identifier').value;
+            const dbHostAdress = document.getElementById('database_host_address').value;
+            const dbusername = document.getElementById('database_username').value;
+            const dbpassword = document.getElementById('database_password').value;
+            const dbname = document.getElementById('database_name').value;
+            const dbTableName = document.getElementById('db_table_name')
             const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('useremail').value;
+            const password = document.getElementById('userpassword').value;
 
             const data = {
-                db_name: dbName,
-                identifier: identifier,
-                username: username,
-                email: email,
-                password: password
+                database_host_address: dbHostAddress,
+                database_username: dbusername,
+                database_password: dbpassword,
+                database_name: dbname,
+                database_table_name: dbTableName,
+                userName: username,
+                userEmail: email,
+                userPassword: password
             };
 
             fetch('https://investorsol2.pythonanywhere.com/register', {
