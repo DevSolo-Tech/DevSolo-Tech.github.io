@@ -53,7 +53,7 @@
     <div class="container">
         <h2>User Registration</h2>
         <form id="registrationForm">
-            <input type="text" id="database_host_name" placeholder="Database Host Address" required>
+            <input type="text" id="database_host_address" placeholder="Database Host Address" required>
             <input type="text" id="database_username" placeholder="Database Username" required>
             <input type="text" id="database_password" placeholder="Database Password" required>
             <input type="text" id="database_name" placeholder="Database Name" required>
@@ -72,7 +72,7 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const dbHostAdress = document.getElementById('database_host_address').value;
+            const dbHostAddress = document.getElementById('database_host_address').value;
             const dbusername = document.getElementById('database_username').value;
             const dbpassword = document.getElementById('database_password').value;
             const dbname = document.getElementById('database_name').value;
